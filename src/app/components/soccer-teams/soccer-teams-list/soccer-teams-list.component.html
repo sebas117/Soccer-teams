@@ -1,0 +1,109 @@
+<header class="d-flex justify-content-start align-items-center gap-5 pb-4 pe-4">
+
+    <mat-form-field appearance="outline" [formGroup]="range">
+        <mat-label>ID de Equipo</mat-label>
+        <input matInput formControlName="id" placeholder="Numero de ID" type="number">
+        <mat-hint>Numero de ID del equipo</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Ingresa un rango</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" id="start" name="start" placeholder="Fecha inicio">
+            <input matEndDate formControlName="end" id="end" name="end" placeholder="Fecha fin">
+        </mat-date-range-input>
+        <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Fecha de inicio invalida</mat-error>
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Fecha final invalida</mat-error>
+    </mat-form-field>
+
+    <div class="ms-auto">
+        <button mat-raised-button color="secondary" class="me-3" (click)="onClear()">Limpiar</button>
+        <button mat-raised-button color="primary" (click)="onFilter()">Buscar</button>
+    </div>
+
+
+</header>
+
+<section class="teams-table" tabindex="0">
+
+    <div class="example-loading-shade"
+         *ngIf="isLoading ">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
+
+    <div class="example-table-container">
+        <table mat-table [dataSource]="dataSource">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Id</th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> Nombre</th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="estadio">
+                <th mat-header-cell *matHeaderCellDef> Estadio</th>
+                <td mat-cell *matCellDef="let element"> {{element.estadio}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="sitioWeb">
+                <th mat-header-cell *matHeaderCellDef> Sitio Web</th>
+                <td mat-cell *matCellDef="let element"> {{element.sitioWeb}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nacionalidad">
+                <th mat-header-cell *matHeaderCellDef> Nacionalidad</th>
+                <td mat-cell *matCellDef="let element"> {{element.nacionalidad}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fundacion">
+                <th mat-header-cell *matHeaderCellDef> Fundación</th>
+                <td mat-cell *matCellDef="let element"> {{element.fundacion  | globalDate }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="entrenador">
+                <th mat-header-cell *matHeaderCellDef> Entrenador</th>
+                <td mat-cell *matCellDef="let element"> {{element.entrenador}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="capacidad">
+                <th mat-header-cell *matHeaderCellDef> Capacidad</th>
+                <td mat-cell *matCellDef="let element"> {{element.capacidad}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="valor">
+                <th mat-header-cell *matHeaderCellDef> Valor</th>
+                <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="borrar" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                <td mat-cell *matCellDef="let element" class="trash" (click)="onDeleteTeam($event, element)">
+                    <i class="bi bi-trash3" style="font-size: 14px"></i>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row (click)="onSelectTeam(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+    </div>
+
+    <mat-paginator [length]="resultsLength"
+                   [pageSize]="15"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+</section>
+
+

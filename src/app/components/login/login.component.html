@@ -1,0 +1,32 @@
+<form class="container-form needs-validation" novalidate (ngSubmit)="onSubmit()" #f="ngForm">
+
+    <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+    <p class="text-black-50 mb-5">Por favor, ingrese su usuario y contraseña</p>
+    <!-- Email input -->
+    <div class="form-floating mb-4">
+        <input type="email" id="username" class="form-control"
+               [ngClass]="{'is-invalid': !username.valid && username.touched}" name="username" placeholder="Username"
+               #username="ngModel" ngModel required/>
+        <label for="username">Nombre de usuario</label>
+        <div id="validationServerUsernameFeedback" class="invalid-feedback text-start">
+            Por favor, ingrese su usuario.
+        </div>
+    </div>
+
+
+    <!-- Password input -->
+    <div class="form-floating mb-4">
+        <input type="password" id="password" class="form-control"
+               [ngClass]="{'is-invalid': !password.valid && password.touched}" name="password" placeholder="Password"
+               #password="ngModel" ngModel required/>
+        <label for="password">Contraseña</label>
+        <div id="validationServerPasswordFeedback" class="invalid-feedback text-start">
+            Por favor, ingrese su contraseña.
+        </div>
+    </div>
+
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-dark mb-4 w-100" [disabled]="!f.valid">Iniciar Sesión</button>
+
+</form>

@@ -1,4 +1,7 @@
-<app-navbar></app-navbar>
-<div class="container">
-<h1>Equipos de futbol App</h1>
+<app-navbar *ngIf="isLogged"></app-navbar>
+
+<div class="container" [ngClass]="isLogged? 'contenido': ''">
+    <router-outlet></router-outlet>
 </div>
+
+<app-footer *ngIf="isLogged"></app-footer>
